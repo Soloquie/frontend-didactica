@@ -1,0 +1,8 @@
+{
+  "name": "Portafolio de Didáctica",
+  "description": "Un portafolio académico moderno y interactivo que presenta juegos didácticos, dinámicas grupales, reflexiones y evidencias de aprendizaje para la materia de Didáctica.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

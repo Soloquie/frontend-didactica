@@ -21,6 +21,13 @@ Copia `.env.example` como `.env.local` si necesitas cambiar la URL del backend:
 VITE_API_URL=http://localhost:8080
 ```
 
+La comunicacion con el backend se maneja en `src/services/api.ts`, leyendo `VITE_API_URL`.
+Para produccion se dejo `.env.production` apuntando a:
+
+```env
+VITE_API_URL=https://backend-didactica.onrender.com
+```
+
 ## Ejecutar
 
 ```bash

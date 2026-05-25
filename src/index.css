@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-serif: "Lora", Georgia, serif;
+  --font-display: "Lora", Georgia, serif;
+  --font-mono: "Fira Code", monospace;
+
+  /* Custom Natural Tones Palette */
+  --color-natural-bg: #F9F6F2;
+  --color-natural-card: #ffffff;
+  --color-natural-border: #E8E2D9;
+  --color-natural-dark: #2D2926;
+  --color-natural-text: #4A443F;
+  --color-natural-muted: #6D655E;
+  --color-natural-tag: #8C847C;
+  --color-natural-light-gray: #F3F0EC;
+  
+  --color-sage: #5E7153;
+  --color-sage-hover: #4D5E43;
+  --color-sage-light: #F0F4EE;
+  
+  --color-terracotta: #D98C71;
+  --color-terracotta-light: #FBF3F0;
+  
+  --color-soft-blue: #78A1BB;
+  --color-soft-blue-light: #F1F6FA;
+
+  --color-gold: #E5B558;
+  --color-gold-light: #FCF8EE;
+  
+  --animate-fade-in: fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-scale-in: scale-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-spin-slow: spin 12s linear infinite;
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.96) translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+}
+
+/* Custom UI refinements for standard scrollbar hiding */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
