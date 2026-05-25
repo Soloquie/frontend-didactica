@@ -1,59 +1,54 @@
-# FrontendDidactica
+# Frontend Didáctica
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+Frontend React + Vite adaptado para consumir el backend `backend-didactica` hecho en Spring Boot.
 
-## Development server
+## Decisión técnica
 
-To start a local development server, run:
+Se conservó React porque el proyecto entregado ya estaba construido en React/Vite y tenía una interfaz visual completa. Migrarlo a Angular habría implicado rehacer toda la UI, mientras que adaptar los servicios al backend permitió mantener el diseño y conectar el CRUD real.
 
-```bash
-ng serve
+## Requisitos
+
+- Node.js 20 o superior.
+- Backend Spring Boot ejecutándose en `http://localhost:8080`.
+- Base de datos MySQL configurada para el backend.
+- Cloudinary configurado en el backend para subir evidencias.
+
+## Configuración
+
+Copia `.env.example` como `.env.local` si necesitas cambiar la URL del backend:
+
+```env
+VITE_API_URL=http://localhost:8080
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Ejecutar
 
 ```bash
-ng generate component component-name
+npm install
+npm run dev
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+La app corre en:
 
-```bash
-ng generate --help
+```text
+http://localhost:4200
 ```
 
-## Building
+Se usa el puerto 4200 para coincidir con la configuración CORS esperada del backend.
 
-To build the project run:
+## Funcionalidades conectadas al backend
 
-```bash
-ng build
-```
+- Consulta pública de categorías: `GET /api/public/categorias`
+- Consulta pública de actividades publicadas: `GET /api/public/actividades`
+- Login administrativo: `POST /api/auth/login`
+- Panel administrativo con token JWT.
+- Crear/editar/eliminar actividades.
+- Publicar, archivar o pasar actividades a borrador.
+- Crear aprendizajes y materiales asociados.
+- Subir evidencias desde el dispositivo mediante multipart/form-data hacia Cloudinary por medio del backend.
+- Agregar evidencias por URL.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Nota
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Si el backend no está disponible, la parte pública muestra datos de demostración para no dejar la página vacía. El panel administrativo sí requiere backend y token real.
+"# frontend-didactica" 
