@@ -51,9 +51,9 @@ export default function AdminMembersEditor({ groupInfo, onCancel, onSaved, onErr
       titulo: draft.titulo.trim() || '¿Quiénes somos?',
       integrantes: draft.integrantes
         .map(member => ({
-          nombre: member.nombre.trim(),
-          descripcion: member.descripcion.trim(),
-          imagenUrl: member.imagenUrl.trim(),
+          nombre: (member.nombre || '').trim(),
+          descripcion: (member.descripcion || '').trim(),
+          imagenUrl: (member.imagenUrl || '').trim(),
         }))
         .filter(member => member.nombre.length > 0),
       activo: draft.activo ?? true,
