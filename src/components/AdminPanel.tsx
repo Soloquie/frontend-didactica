@@ -287,7 +287,7 @@ export default function AdminPanel({
             Consola Administrativa
           </span>
           <h2 className="text-2xl font-serif font-bold text-natural-dark">Gestión del Portafolio</h2>
-          <p className="text-xs text-natural-muted">Los cambios se guardan directamente en el backend Spring Boot.</p>
+          <p className="text-xs text-natural-muted">Administre las actividades, evidencias y aprendizajes del portafolio.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {!isEditing && (
@@ -317,7 +317,7 @@ export default function AdminPanel({
             <h3 className="text-sm font-bold text-natural-dark font-serif">
               {editingActivity ? 'Editar actividad existente' : 'Crear nueva actividad o proyecto'}
             </h3>
-            <p className="text-xs text-natural-muted leading-normal">Complete los datos didácticos. Las evidencias se enviarán al backend y, si son archivos, el backend las subirá a Cloudinary.</p>
+            <p className="text-xs text-natural-muted leading-normal">Complete los datos didácticos y agregue las evidencias que acompañan la actividad.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -469,7 +469,7 @@ export default function AdminPanel({
             <button type="button" disabled={submitting} onClick={() => { setIsEditing(false); resetForm(); }} className="px-5 py-2.5 bg-white border border-natural-border text-natural-dark hover:bg-natural-light-gray font-semibold rounded-xl text-xs transition cursor-pointer disabled:opacity-50">Cancelar</button>
             <button type="submit" disabled={submitting} className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-sage hover:bg-[#4D5E43] text-white font-semibold rounded-xl text-xs transition cursor-pointer shadow-md shadow-sage/10 disabled:opacity-70">
               {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              Guardar en backend
+              Guardar actividad
             </button>
           </div>
         </form>
@@ -478,8 +478,8 @@ export default function AdminPanel({
           <div className="bg-[#F9F6F2] border border-natural-border p-4 rounded-xl flex items-start gap-3">
             <Info className="w-5 h-5 text-sage shrink-0 mt-0.5" />
             <div className="space-y-0.5">
-              <p className="text-xs font-bold text-natural-dark font-serif">Panel conectado al backend</p>
-              <p className="text-[11px]/relaxed text-natural-muted">Aquí se listan actividades administrativas. Las publicadas aparecerán en la vista pública del portafolio.</p>
+              <p className="text-xs font-bold text-natural-dark font-serif">Gestión de actividades</p>
+              <p className="text-[11px]/relaxed text-natural-muted">Aquí se listan las actividades administrables. Las publicadas aparecerán en la vista pública del portafolio.</p>
             </div>
           </div>
 
@@ -496,7 +496,7 @@ export default function AdminPanel({
               </thead>
               <tbody className="divide-y divide-natural-border/60">
                 {activities.length === 0 && (
-                  <tr><td colSpan={5} className="p-8 text-center text-natural-muted">No hay actividades administrativas para mostrar.</td></tr>
+                  <tr><td colSpan={5} className="p-8 text-center text-natural-muted">No hay actividades para mostrar.</td></tr>
                 )}
                 {activities.map((act) => (
                   <tr key={act.id} className="hover:bg-[#FDFBF7]/50 transition duration-150">

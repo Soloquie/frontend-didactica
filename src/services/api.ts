@@ -1,4 +1,4 @@
-import { Activity, ActivityCategory, ActivityFormData, AuthUser, Category, EvidenceItem, LearningItem, MaterialItem, PortafolioInfo } from '../types';
+import { Activity, ActivityCategory, ActivityFormData, AuthUser, Category, EvidenceItem, GroupInfo, LearningItem, MaterialItem, PortafolioInfo } from '../types';
 
 const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8080').replace(/\/$/, '');
 const TOKEN_KEY = 'didactica_auth_token';
@@ -227,7 +227,7 @@ function toActividadRequest(form: ActivityFormData, categories: Category[]) {
     || categories[0];
 
   if (!category?.id) {
-    throw new Error('No hay categorías disponibles en el backend. Cree o cargue categorías antes de guardar actividades.');
+    throw new Error('No hay categorías disponibles. Cree o cargue categorías antes de guardar actividades.');
   }
 
   return {
@@ -262,6 +262,37 @@ export const didacticaApi = {
 
   async getPublicPortafolio(): Promise<PortafolioInfo> {
     return request<PortafolioInfo>('/api/public/portafolio');
+  },
+
+  async getPublicGroupInfo(): Promise<GroupInfo> {
+    return request<GroupInfo>('/api/public/grupo-info');
+  },
+
+  async getAdminGroupInfo(): Promise<GroupInfo> {
+    return request<GroupInfo>('/api/admin/grupo-info', {}, true);
+  },
+
+  async updateGroupInfo(groupInfo: GroupInfo): Promise<GroupInfo> {
+    return request<GroupInfo>('/api/admin/grupo-info', {
+      method: 'PUT',
+      body: JSON.stringify({
+        titulo: groupInfo.titulo,
+        descripcion: groupInfo.descripcion,
+        imagenUrl: groupInfo.imagenUrl,
+        integrantes: groupInfo.integrantes,
+        activo: groupInfo.activo ?? true,
+      }),
+    }, true);
+  },
+
+  async uploadGroupImage(file: File): Promise<GroupInfo> {
+    const form = new FormData();
+    form.append('archivo', file);
+
+    return request<GroupInfo>('/api/admin/grupo-info/imagen', {
+      method: 'POST',
+      body: form,
+    }, true);
   },
 
   async getPublicCategorias(): Promise<Category[]> {

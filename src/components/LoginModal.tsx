@@ -44,7 +44,7 @@ export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps
         <div className="flex justify-between items-start mb-6 border-b border-natural-border pb-4">
           <div className="space-y-1">
             <h3 className="text-xl font-serif font-bold text-natural-dark">Acceso Administrativo</h3>
-            <p className="text-xs text-natural-muted">Ingrese con el usuario creado en el backend.</p>
+            <p className="text-xs text-natural-muted">Ingrese con su usuario administrador.</p>
           </div>
           <button
             onClick={onClose}

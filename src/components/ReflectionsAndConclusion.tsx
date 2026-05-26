@@ -431,7 +431,7 @@ export default function ReflectionsAndConclusion({ isLoggedIn = false }: Reflect
 
         {/* Global Signature of the team */}
         <div className="mt-16 text-center border-t border-natural-border pt-8 max-w-sm mx-auto">
-          <p className="text-sm font-bold text-natural-dark font-serif mt-1">Actividades realizadas por: Leonardo, Oveimar y María.</p>
+          <p className="text-sm font-bold text-natural-dark font-serif mt-1">Actividades realizadas por: Leonardo, Oveimar, Maria y Veronica</p>
           <p className="text-[10px] text-natural-muted font-sans mt-0.5">Licenciatura en Matemáticas.</p>
         </div>
 

@@ -133,6 +133,15 @@ export interface PortafolioInfo {
   activo?: boolean;
 }
 
+export interface GroupInfo {
+  id?: number;
+  titulo: string;
+  descripcion: string;
+  imagenUrl: string;
+  integrantes: string[];
+  activo?: boolean;
+}
+
 export interface AuthUser {
   token: string;
   tipo: string;

@@ -6,8 +6,9 @@ import ActivityDetailModal from './components/ActivityDetailModal';
 import ReflectionsAndConclusion from './components/ReflectionsAndConclusion';
 import LoginModal from './components/LoginModal';
 import AdminPanel from './components/AdminPanel';
-import { ACTIVITIES, DIDACTIC_METRICS } from './data/activities';
-import { Activity, ActivityCategory, ActivityFormData, ActivityStatus, AuthUser, Category, LearningItem, MaterialItem } from './types';
+import WhoWeAre from './components/WhoWeAre';
+import { ACTIVITIES } from './data/activities';
+import { Activity, ActivityCategory, ActivityFormData, ActivityStatus, AuthUser, Category, LearningItem, MaterialItem, Metric } from './types';
 import { Search, Filter, GraduationCap, X, Sparkles, Clock, Layers, Users, RefreshCw, AlertCircle } from 'lucide-react';
 import { clearAuth, didacticaApi, getStoredUser } from './services/api';
 
@@ -62,7 +63,7 @@ export default function App() {
       setActivities(backendActivities.length ? backendActivities : ACTIVITIES);
     } catch (err) {
       setActivities(ACTIVITIES);
-      setApiStatus('No se pudo conectar con el backend. Se muestra una vista de demostración mientras el servidor está apagado o sin datos iniciales.');
+      setApiStatus('No fue posible cargar la información actual. Se muestra una vista de demostración temporal.');
       console.warn('Public API unavailable:', err);
     } finally {
       setLoadingPublic(false);
@@ -155,7 +156,7 @@ export default function App() {
     } else {
       saved = await didacticaApi.createActividad(form, categories);
     }
-    if (!saved.backendId) throw new Error('El backend no devolvió el ID de la actividad.');
+    if (!saved.backendId) throw new Error('No fue posible confirmar el guardado de la actividad.');
     await syncChildren(saved.backendId, form, originalActivity);
     await Promise.all([loadPublicData(), loadAdminData()]);
   };
@@ -209,6 +210,40 @@ export default function App() {
     return Array.from(unique, ([value, label]) => ({ value, label }));
   }, [categories]);
 
+  const didacticMetrics = useMemo<Metric[]>(() => {
+    const activityCount = activities.length;
+    const estimatedHours = activityCount * 2;
+    const visibleCategoryCount = new Set(activities.map(activity => activity.category)).size;
+    const featuredCount = activities.filter(activity => activity.destacado).length;
+
+    return [
+      {
+        label: 'Actividades Realizadas',
+        value: activityCount,
+        icon: 'Sparkles',
+        description: 'Actividades y proyectos publicados actualmente en el portafolio.',
+      },
+      {
+        label: 'Horas Prácticas',
+        value: `${estimatedHours}h`,
+        icon: 'Clock',
+        description: 'Estimación calculada con 2 horas de trabajo por cada actividad registrada.',
+      },
+      {
+        label: 'Tipos de Experiencia',
+        value: visibleCategoryCount,
+        icon: 'Layers',
+        description: 'Categorías con actividades disponibles en el catálogo.',
+      },
+      {
+        label: 'Actividades Destacadas',
+        value: featuredCount,
+        icon: 'Users',
+        description: 'Actividades marcadas como destacadas dentro del portafolio.',
+      },
+    ];
+  }, [activities]);
+
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
       const matchesCategory = selectedCategory === 'todas' || activity.category === selectedCategory;
@@ -236,11 +271,12 @@ export default function App() {
             <span className="inline-flex p-1.5 rounded-lg bg-sage text-white leading-none"><GraduationCap className="w-5 h-5" /></span>
             <span>Portafolio <span className="text-sage">Didáctica</span></span>
           </a>
-          <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-natural-text">
-            <a href="#introduccion" className="hover:text-sage transition text-natural-muted hover:text-natural-dark">Introducción</a>
-            <a href="#actividades" className="hover:text-sage transition text-natural-muted hover:text-natural-dark">Actividades</a>
-            <a href="#reflexiones-finales" className="hover:text-sage transition text-natural-muted hover:text-natural-dark">Cierre</a>
-          </div>
+        <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-natural-text">
+          <a href="#introduccion" className="hover:text-sage transition text-natural-muted hover:text-natural-dark">Introducción</a>
+          <a href="#quienes-somos" className="hover:text-sage transition text-natural-muted hover:text-natural-dark">Equipo</a>
+          <a href="#actividades" className="hover:text-sage transition text-natural-muted hover:text-natural-dark">Actividades</a>
+          <a href="#reflexiones-finales" className="hover:text-sage transition text-natural-muted hover:text-natural-dark">Cierre</a>
+        </div>
           <div className="flex items-center gap-2">
             {isLoggedIn ? (
               <>
@@ -263,7 +299,9 @@ export default function App() {
       <Header activities={activities} />
 
       <main className="space-y-6">
-        <Introduction />
+        <Introduction isLoggedIn={isLoggedIn} />
+
+        <WhoWeAre isLoggedIn={isLoggedIn} />
 
         {apiStatus && (
           <section className="max-w-7xl mx-auto px-6">
@@ -277,7 +315,7 @@ export default function App() {
         <section className="py-10 bg-[#F9F6F2] border-y border-natural-border">
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {DIDACTIC_METRICS.map((metric, i) => (
+              {didacticMetrics.map((metric, i) => (
                 <div key={i} className="bg-white p-6 rounded-2xl border border-natural-border shadow-sm flex items-start gap-4 hover:shadow-md transition duration-300">
                   <div className="p-3 bg-sage-light rounded-xl shrink-0">{getMetricIcon(metric.icon)}</div>
                   <div className="space-y-1">
@@ -315,7 +353,7 @@ export default function App() {
                   <Filter className="w-3.5 h-3.5" /> Catálogo de Experiencias
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-serif font-bold text-natural-dark tracking-tight">Actividades y Proyectos</h2>
-                <p className="text-natural-muted text-sm leading-relaxed">Explore las actividades publicadas en el backend del portafolio. Puede filtrar por categoría o buscar por nombre, descripción y materiales.</p>
+                <p className="text-natural-muted text-sm leading-relaxed">Explore las actividades publicadas en el portafolio. Puede filtrar por categoría o buscar por nombre, descripción y materiales.</p>
               </div>
               <button onClick={loadPublicData} disabled={loadingPublic} className="inline-flex items-center justify-center gap-2 text-xs font-bold text-natural-dark bg-white border border-natural-border rounded-xl px-4 py-2.5 hover:bg-natural-light-gray transition disabled:opacity-60">
                 <RefreshCw className={`w-4 h-4 ${loadingPublic ? 'animate-spin' : ''}`} /> Actualizar catálogo
