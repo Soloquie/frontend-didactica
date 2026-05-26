@@ -295,6 +295,16 @@ export const didacticaApi = {
     }, true);
   },
 
+  async uploadMemberImage(index: number, file: File): Promise<GroupInfo> {
+    const form = new FormData();
+    form.append('archivo', file);
+
+    return request<GroupInfo>(`/api/admin/grupo-info/integrantes/${index}/imagen`, {
+      method: 'POST',
+      body: form,
+    }, true);
+  },
+
   async getPublicCategorias(): Promise<Category[]> {
     const data = await request<BackendCategoria[]>('/api/public/categorias');
     return data.map(mapCategory);

@@ -138,8 +138,14 @@ export interface GroupInfo {
   titulo: string;
   descripcion: string;
   imagenUrl: string;
-  integrantes: string[];
+  integrantes: GroupMember[];
   activo?: boolean;
+}
+
+export interface GroupMember {
+  nombre: string;
+  descripcion: string;
+  imagenUrl: string;
 }
 
 export interface AuthUser {
